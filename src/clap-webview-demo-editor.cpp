@@ -1,5 +1,6 @@
 #include "clap-webview-demo-editor.h"
 #include <gui/choc_WebView.h>
+#include <platform/choc_ObjectiveCHelpers.h>
 
 namespace clap_webview_demo
 {
@@ -34,7 +35,6 @@ bool ClapWebViewDemoEditor::setParentWindow(const clap_window* parent)
     {
         return false;
     }
-
     ShowWindow(static_cast<HWND> (chocWebView->getViewHandle()), SW_SHOWNA);
     return true;
 #else
@@ -50,12 +50,14 @@ bool ClapWebViewDemoEditor::setViewSize(const ViewSize& viewSize)
 
 #if CLAP_MAC
     CHOC_AUTORELEASE_BEGIN
-        auto frame = choc::objc::CGRect{ { 0, 0 }, { (choc::objc::CGFloat)width, (choc::objc::CGFloat)height } };
+    auto frame = choc::objc::CGRect{ { 0, 0 }, { (choc::objc::CGFloat)width, (choc::objc::CGFloat)height } };
     choc::objc::call<void>((id)chocWebView->getViewHandle(), "setFrame:", frame);
     CHOC_AUTORELEASE_END
     return true;
 #elif CLAP_WINDOWS
-    return MoveWindow(static_cast<HWND> (chocWebView->getViewHandle()), 0, 0, static_cast<int> (viewSize.width), static_cast<int> (viewSize.height), true);
+    return MoveWindow(static_cast<HWND> (chocWebView->getViewHandle()), 
+    0, 0, static_cast<int> (viewSize.width), static_cast<int> (viewSize.height), 
+    true);
 #else
     return false;
 #endif
