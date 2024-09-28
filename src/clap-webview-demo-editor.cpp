@@ -25,7 +25,7 @@ bool ClapWebViewDemoEditor::setParentWindow(const clap_window* parent)
 #if CLAP_MAC
     try
     {
-        choc::objc::call<void>((id)parent, "addSubview:", (id)chocWebView->getViewHandle());
+        choc::objc::call<void>((id)parent->ptr, "addSubview:", (id)chocWebView->getViewHandle());
         return true;
     }
     catch (...) {}
@@ -50,7 +50,7 @@ bool ClapWebViewDemoEditor::setViewSize(const ViewSize& viewSize)
 
 #if CLAP_MAC
     CHOC_AUTORELEASE_BEGIN
-    auto frame = choc::objc::CGRect{ { 0, 0 }, { (choc::objc::CGFloat)width, (choc::objc::CGFloat)height } };
+    auto frame = choc::objc::CGRect{ { 0, 0 }, { (choc::objc::CGFloat)viewSize.width, (choc::objc::CGFloat)viewSize.height } };
     choc::objc::call<void>((id)chocWebView->getViewHandle(), "setFrame:", frame);
     CHOC_AUTORELEASE_END
     return true;
