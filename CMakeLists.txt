@@ -45,9 +45,16 @@ if(APPLE)
             MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_NAME}
             MACOSX_BUNDLE_BUNDLE_VERSION "0.1"
             MACOSX_BUNDLE_SHORT_VERSION_STRING "0.1"
-            # MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/cmake/${PROJECT_NAME}.plist.in
+            MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/cmake/${PROJECT_NAME}.plist.in
             )
-    target_link_libraries(${PROJECT_NAME} "-framework CoreFoundation" "-framework AppKit" "-framework CoreGraphics")
+    target_link_libraries(${PROJECT_NAME} 
+        PRIVATE
+            "-framework CoreFoundation"
+            "-framework CoreServices"
+            "-framework CoreGraphics"
+            "-framework AppKit"
+            "-framework WebKit"
+            )
 elseif(UNIX)
     target_compile_definitions(${PROJECT_NAME} PRIVATE CLAP_LINUX=1)
     set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".clap" PREFIX "")
