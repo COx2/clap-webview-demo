@@ -20,6 +20,15 @@ It's important to note that this project does not currently include a Linux impl
 
 ## How to build
 
+### Prerequisites
+
+In general, having a setup that allows building modern C++ should be sufficient.
+
++ Visual Studio: 2022 (Windows)
++ Xcode: 14.2 or later (macOS)
++ CMake: 3.25 or later
++ Git: 2.3 or later
+
 ### Windows - Visual Studio 2022
 
 ```sh
@@ -33,15 +42,6 @@ cmake --build --preset vs2022-release
 cmake --preset xcode
 cmake --build --preset xcode-release
 ```
-
-### Prerequisites
-
-In general, having a setup that allows building modern C++ should be sufficient.
-
-+ Visual Studio: 2022 (Windows)
-+ Xcode: 14.2 or later (macOS)
-+ CMake: 3.25 or later
-+ Git: 2.3 or later
 
 ## Attention Regarding Licenses
 
