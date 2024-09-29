@@ -39,14 +39,14 @@ target_link_libraries(${PROJECT_NAME}
 if(APPLE)
     target_compile_definitions(${PROJECT_NAME} PRIVATE CLAP_MAC=1)
     set_target_properties(${PROJECT_NAME} PROPERTIES
-            BUNDLE True
-            BUNDLE_EXTENSION clap
-            MACOSX_BUNDLE_GUI_IDENTIFIER com.cox2.${PROJECT_NAME}
-            MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_NAME}
-            MACOSX_BUNDLE_BUNDLE_VERSION "0.1"
-            MACOSX_BUNDLE_SHORT_VERSION_STRING "0.1"
-            MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/cmake/${PROJECT_NAME}.plist.in
-            )
+        BUNDLE True
+        BUNDLE_EXTENSION clap
+        MACOSX_BUNDLE_GUI_IDENTIFIER com.cox2.${PROJECT_NAME}
+        MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_NAME}
+        MACOSX_BUNDLE_BUNDLE_VERSION "0.1"
+        MACOSX_BUNDLE_SHORT_VERSION_STRING "0.1"
+        MACOSX_BUNDLE_INFO_PLIST "${CMAKE_SOURCE_DIR}/cmake/macos_bundle/CLAP_Info.plist.in"
+        )
     target_link_libraries(${PROJECT_NAME} 
         PRIVATE
             "-framework CoreFoundation"
@@ -55,6 +55,12 @@ if(APPLE)
             "-framework AppKit"
             "-framework WebKit"
             )
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/cmake/macos_bundle/PkgInfo" "$<TARGET_FILE_DIR:${PROJECT_NAME}>/.."
+        COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:${PROJECT_NAME}>/../Resources"
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/cmake/macos_bundle/clap.icns" "$<TARGET_FILE_DIR:${PROJECT_NAME}>/../Resources"
+        VERBATIM
+        )
 elseif(UNIX)
     target_compile_definitions(${PROJECT_NAME} PRIVATE CLAP_LINUX=1)
     set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".clap" PREFIX "")
